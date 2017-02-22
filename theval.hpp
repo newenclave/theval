@@ -46,6 +46,7 @@ namespace theval {
             WEIGHT_RFLUSH    = 10,
         };
 
+        static
         std::uint16_t mask( std::uint16_t c1, std::uint16_t c2,
                             std::uint16_t c3, std::uint16_t c4,
                             std::uint16_t c5 )
@@ -53,18 +54,21 @@ namespace theval {
             return  1 << c1 | 1 << c2 | 1 << c3 | 1 << c4 | 1 << c5 ;
         }
 
+        static
         bool straight( std::uint16_t mask )
         {
             return ( mask == 0x403C ) ||
                    ( mask / ( mask & std::uint16_t(-mask) ) == 0x1F ) ;
         }
 
+        static
         int flush( std::uint16_t s1, std::uint16_t s2, std::uint16_t s3,
                    std::uint16_t s4, std::uint16_t s5 )
         {
             return s1 == ( s2 | s3 | s4 | s5 );
         }
 
+        static
         std::uint64_t value( std::uint16_t c1, std::uint16_t c2,
                              std::uint16_t c3, std::uint16_t c4,
                              std::uint16_t c5 )
@@ -95,20 +99,21 @@ namespace theval {
             return res;
         }
 
+        static
         hand_weight get_weight ( std::uint64_t value, std::uint16_t mask,
                                  bool is_flush )
         {
             static const hand_weight values[ ] = {
+                WEIGHT_4_A_KIND ,
+                WEIGHT_SFLUSH   ,
+                WEIGHT_STREIGHT ,
+                WEIGHT_FLUSH    ,
                 WEIGHT_HIGH     ,
                 WEIGHT_PAIR     ,
                 WEIGHT_2_PAIRS  ,
-                WEIGHT_3_A_KIND ,
-                WEIGHT_STREIGHT ,
-                WEIGHT_FLUSH    ,
-                WEIGHT_FHOUSE   ,
-                WEIGHT_4_A_KIND ,
-                WEIGHT_SFLUSH   ,
                 WEIGHT_RFLUSH   ,
+                WEIGHT_3_A_KIND ,
+                WEIGHT_FHOUSE   ,
             };
 
             static const size_t value_size = sizeof(values) / sizeof(values[0]);

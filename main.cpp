@@ -133,5 +133,12 @@ private:
 
 int main(int argc, char *argv[])
 {
+    auto m = theval::eval::mask( 10, 10, 10, 2, 2  );
+    auto v = theval::eval::value( 10, 10, 10, 2, 2  );
+
+    auto n = theval::eval::get_weight( v, m, false );
+
+    std::cout << "n " << n << "\n";
+
     return 0;
 }
