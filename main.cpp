@@ -7,6 +7,22 @@ class card {
 
 public:
 
+    struct value_less {
+        bool operator ( )( const card &lh, const card &rh ) const
+        {
+            return lh.value( ) < rh.value( );
+        }
+    };
+
+    struct full_less {
+        bool operator ( )( const card &lh, const card &rh ) const
+        {
+            return ( lh.value( ) == rh.value( ) )
+                 ? ( lh.suit( )   < rh.suit( )  )
+                 : ( lh.value( )  < rh.value( ) );
+        }
+    };
+
     card( theval::eval::card_value v, theval::eval::card_suit s )
         :value_(v)
         ,suit_(s)
@@ -92,6 +108,12 @@ private:
     theval::eval::card_value value_;
     theval::eval::card_suit  suit_;
 };
+
+bool operator < ( const card &lh, const card &rh )
+{
+    card::full_less less;
+    return less( lh, rh );
+}
 
 class hand {
 
