@@ -7,18 +7,43 @@ namespace theval {
 
     struct eval {
 
-        enum hand_waight {
-            HAND_INVALID   =  0,
-            HAND_HIGH      =  1,
-            HAND_PAIR      =  2,
-            HAND_2_PAIRS   =  3,
-            HAND_3_A_KIND  =  4,
-            HAND_STREIGHT  =  5,
-            HAND_FLUSH     =  6,
-            HAND_FHOUSE    =  7,
-            HAND_4_A_KIND  =  8,
-            HAND_SFLUSH    =  9,
-            HAND_RFLUSH    = 10,
+        enum card_value {
+            CARD_0 =  0, /// invalid value
+            CARD_2 =  2,
+            CARD_3 =  3,
+            CARD_4 =  4,
+            CARD_5 =  5,
+            CARD_6 =  6,
+            CARD_7 =  7,
+            CARD_8 =  8,
+            CARD_9 =  9,
+            CARD_T = 10,
+            CARD_J = 11,
+            CARD_Q = 12,
+            CARD_K = 13,
+            CARD_A = 14,
+        };
+
+        enum card_suit {
+            SUIT_0 =  0,
+            SUIT_C =  1,
+            SUIT_D =  2,
+            SUIT_H =  4,
+            SUIT_S =  8,
+        };
+
+        enum hand_weight {
+            WEIGHT_INVALID   =  0,
+            WEIGHT_HIGH      =  1,
+            WEIGHT_PAIR      =  2,
+            WEIGHT_2_PAIRS   =  3,
+            WEIGHT_3_A_KIND  =  4,
+            WEIGHT_STREIGHT  =  5,
+            WEIGHT_FLUSH     =  6,
+            WEIGHT_FHOUSE    =  7,
+            WEIGHT_4_A_KIND  =  8,
+            WEIGHT_SFLUSH    =  9,
+            WEIGHT_RFLUSH    = 10,
         };
 
         std::uint16_t mask( std::uint16_t c1, std::uint16_t c2,
@@ -26,6 +51,18 @@ namespace theval {
                             std::uint16_t c5 )
         {
             return  1 << c1 | 1 << c2 | 1 << c3 | 1 << c4 | 1 << c5 ;
+        }
+
+        bool straight( std::uint16_t mask )
+        {
+            return ( mask == 0x403C ) ||
+                   ( mask / ( mask & std::uint16_t(-mask) ) == 0x1F ) ;
+        }
+
+        int flush( std::uint16_t s1, std::uint16_t s2, std::uint16_t s3,
+                   std::uint16_t s4, std::uint16_t s5 )
+        {
+            return s1 == ( s2 | s3 | s4 | s5 );
         }
 
         std::uint64_t value( std::uint16_t c1, std::uint16_t c2,
@@ -58,32 +95,20 @@ namespace theval {
             return res;
         }
 
-        bool straight( std::uint16_t mask )
-        {
-            return ( mask == 0x403C ) ||
-                   ( mask / ( mask & std::uint16_t(-mask) ) == 0x1F ) ;
-        }
-
-        int flush( std::uint16_t s1, std::uint16_t s2, std::uint16_t s3,
-                   std::uint16_t s4, std::uint16_t s5 )
-        {
-            return s1 == ( s2 | s3 | s4 | s5 );
-        }
-
-        hand_waight get_weight ( std::uint64_t value, std::uint16_t mask,
+        hand_weight get_weight ( std::uint64_t value, std::uint16_t mask,
                                  bool is_flush )
         {
-            static const hand_waight values[ ] = {
-                HAND_HIGH     ,
-                HAND_PAIR     ,
-                HAND_2_PAIRS  ,
-                HAND_3_A_KIND ,
-                HAND_STREIGHT ,
-                HAND_FLUSH    ,
-                HAND_FHOUSE   ,
-                HAND_4_A_KIND ,
-                HAND_SFLUSH   ,
-                HAND_RFLUSH   ,
+            static const hand_weight values[ ] = {
+                WEIGHT_HIGH     ,
+                WEIGHT_PAIR     ,
+                WEIGHT_2_PAIRS  ,
+                WEIGHT_3_A_KIND ,
+                WEIGHT_STREIGHT ,
+                WEIGHT_FLUSH    ,
+                WEIGHT_FHOUSE   ,
+                WEIGHT_4_A_KIND ,
+                WEIGHT_SFLUSH   ,
+                WEIGHT_RFLUSH   ,
             };
 
             static const size_t value_size = sizeof(values) / sizeof(values[0]);
@@ -91,7 +116,7 @@ namespace theval {
             value =  ( value % 15 ) - ( straight( mask ) ? 3 : 1 );
             value -= ( is_flush * ( (mask == 0x7c00) ? -5 : 1) );
 
-            return value >= value_size ? HAND_INVALID : values[value];
+            return value >= value_size ? WEIGHT_INVALID : values[value];
         }
 
     };
