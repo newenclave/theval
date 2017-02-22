@@ -25,7 +25,7 @@ namespace theval {
         };
 
         enum card_suit {
-            SUIT_0 =  0,
+            SUIT_0 =  0, /// invalid value
             SUIT_C =  1,
             SUIT_D =  2,
             SUIT_H =  4,

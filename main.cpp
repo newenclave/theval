@@ -28,6 +28,11 @@ public:
         ,suit_(s)
     { }
 
+    card( )
+        :value_(theval::eval::CARD_0)
+        ,suit_(theval::eval::SUIT_0)
+    { }
+
     static card from_string( const char *str )
     {
         theval::eval::card_value v;
@@ -117,6 +122,13 @@ bool operator < ( const card &lh, const card &rh )
 
 class hand {
 
+    hand( )
+        :count_(0)
+    { }
+
+private:
+    card    all_[0];
+    size_t  count_;
 };
 
 int main(int argc, char *argv[])
