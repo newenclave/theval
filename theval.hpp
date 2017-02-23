@@ -76,25 +76,25 @@ namespace theval {
             std::uint64_t res   = 0;
             std::uint64_t place = 0;
 
-            place = (res >> ((c1 - 2) << 2) & 0xFF );
+            place = ( res >> ((c1 - 2) << 2) & 0xFF );
             place = ((place << 1) | 1);
-            res  |= (place & 0xF)  << ((c1 - 2) << 2);
+            res  |= ( place & 0xF)  << ((c1 - 2) << 2);
 
-            place = (res >> ((c2 - 2) << 2) & 0xFF );
+            place = ( res >> ((c2 - 2) << 2) & 0xFF );
             place = ((place << 1) | 1);
-            res  |= (place & 0xF)  << ((c2 - 2) << 2);
+            res  |= ( place & 0xF)  << ((c2 - 2) << 2);
 
-            place = (res >> ((c3 - 2) << 2) & 0xFF );
+            place = ( res >> ((c3 - 2) << 2) & 0xFF );
             place = ((place << 1) | 1);
-            res  |= (place & 0xF)  << ((c3 - 2) << 2);
+            res  |= ( place & 0xF)  << ((c3 - 2) << 2);
 
-            place = (res >> ((c4 - 2) << 2) & 0xFF );
+            place = ( res >> ((c4 - 2) << 2) & 0xFF );
             place = ((place << 1) | 1);
-            res  |= (place & 0xF)  << ((c4 - 2) << 2);
+            res  |= ( place & 0xF)  << ((c4 - 2) << 2);
 
-            place = (res >> ((c5 - 2) << 2) & 0xFF );
+            place = ( res >> ((c5 - 2) << 2) & 0xFF );
             place = ((place << 1) | 1);
-            res  |= (place & 0xF) << ((c5 - 2) << 2);
+            res  |= ( place & 0xF) << ((c5 - 2) << 2);
 
             return res;
         }
