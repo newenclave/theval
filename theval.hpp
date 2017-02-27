@@ -58,7 +58,7 @@ namespace theval {
         bool straight( std::uint16_t mask )
         {
             return ( mask == 0x403C ) ||
-                   ( mask / ( mask & std::uint16_t(~mask + 1) ) == 0x1F ) ;
+                   ( mask / ( mask & (~mask + 1) ) == 0x1F ) ;
         }
 
         static
