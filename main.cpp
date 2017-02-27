@@ -342,6 +342,7 @@ std::ostream &operator << ( std::ostream &o, const hand &c )
 
 #define HAND0 T, T, T, 2, 2
 #define HAND1 T, T, 2, 2, 2
+#define HAND2 A, K, Q, J, T
 
 std::uint64_t from_bin( const char *p )
 {
@@ -398,12 +399,13 @@ int main(int argc, char *argv[])
     }
 
 
-    auto m = theval::eval::mask(  HAND1 );
-    auto v = theval::eval::value( HAND1 );
+    auto m = theval::eval::mask(     HAND2 );
+    auto v = theval::eval::value(    HAND2 );
+    auto s = theval::eval::straight( m );
 
-    std::cout << theval::eval::get_weight(v, m, false) << "\n";
+    std::cout << "\n" << theval::eval::get_weight(v, m, true ) << "\n";
 
-    std::cout << from_bin( "1111 0000 0000 0001" ) % 15 << "\n";
+//    std::cout << from_bin( "1111 0000 0000 0001" ) % 15 << "\n";
 
     return 0;
 }
